@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace IteratorPattern.Menu.Menus;
 
-public class PancakeHouseMenu
+public class PancakeHouseMenu: IMenu
 {
     private readonly ArrayList _menuItems;
 
@@ -43,8 +43,13 @@ public class PancakeHouseMenu
         return _menuItems;
     }
 
-    public IIterator CreateIterator()
+    //public IEnumerable CreateIterator()
+    //{
+    //    return _menuItems.ToArray().AsEnumerable();
+    //}
+
+    public IEnumerable<MenuItem> CreateMenuItems()
     {
-        return new PancakeHouseMenuIterator(_menuItems);
+        return _menuItems.ToArray().AsEnumerable().Cast<MenuItem>();
     }
 }

@@ -3,7 +3,7 @@ using IteratorPattern.Menu.Iterators;
 
 namespace IteratorPattern.Menu.Menus;
 
-public class DinerMenu
+public class DinerMenu: IMenu
 {
     private const int MaxItems = 6;
     private readonly MenuItem[] _menuItems;
@@ -29,7 +29,7 @@ public class DinerMenu
             3.29);
 
         AddItem("Hotdog",
-            "A hot dog with saurkraut, relish, onions, topped with cheese",
+            "A hot dog with sauerkraut, relish, onions, topped with cheese",
             false,
             3.05);
 
@@ -64,8 +64,13 @@ public class DinerMenu
         return _menuItems;
     }
 
-    public IIterator CreateIterator()
+    //public IEnumerable CreateIterator()
+    //{
+    //    return _menuItems.ToArray().AsEnumerable();
+    //}
+
+    public IEnumerable<MenuItem> CreateMenuItems()
     {
-        return new DinerMenuIterator(_menuItems);
+        return _menuItems.ToArray().AsEnumerable();
     }
 }

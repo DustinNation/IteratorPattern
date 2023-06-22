@@ -7,9 +7,8 @@ using IteratorPattern.Menu.Menus;
 
 namespace IteratorPattern.Menu.Iterators
 {
-    public interface IIterator
+    public interface IMenu
     {
-        bool HasNext();
-        MenuItem Next();
+        public IEnumerable<MenuItem> CreateMenuItems();
     }
 }

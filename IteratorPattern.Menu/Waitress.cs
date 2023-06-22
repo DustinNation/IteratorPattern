@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,10 @@ namespace IteratorPattern.Menu
 {
     public class Waitress
     {
-        private PancakeHouseMenu _pancakeHouseMenu;
-        private DinerMenu _dinerMenu;
+        private readonly IMenu _pancakeHouseMenu;
+        private readonly IMenu _dinerMenu;
 
-        public Waitress(PancakeHouseMenu pancakeHouseMenu, DinerMenu dinerMenu)
+        public Waitress(IMenu pancakeHouseMenu, IMenu dinerMenu)
         {
             _pancakeHouseMenu = pancakeHouseMenu;
             _dinerMenu = dinerMenu;
@@ -23,8 +24,8 @@ namespace IteratorPattern.Menu
         {
             StringBuilder stringBuilder = new();
 
-            var pancakeIterator = _pancakeHouseMenu.CreateIterator();
-            var dinerIterator = _dinerMenu.CreateIterator();
+            var pancakeIterator = _pancakeHouseMenu.CreateMenuItems();
+            var dinerIterator = _dinerMenu.CreateMenuItems();
 
             stringBuilder.Append("MENU\n----\nBREAKFAST\n");
             stringBuilder.Append(PrintMenu(pancakeIterator));
@@ -34,13 +35,15 @@ namespace IteratorPattern.Menu
             return stringBuilder.ToString();
         }
 
-        private static string PrintMenu(IIterator iterator)
+        private static string PrintMenu(IEnumerable iterator)
         {
             StringBuilder stringBuilder = new();
 
-            while (iterator.HasNext())
+            var menuItems = iterator.GetEnumerator();
+
+            while (menuItems.MoveNext())
             {
-                var menuItem = (MenuItem)iterator.Next();
+                var menuItem = (MenuItem)menuItems.Current;
 
                 stringBuilder.Append(menuItem.Name + ", ");
                 stringBuilder.Append(menuItem.Price + " -- ");
