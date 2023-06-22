@@ -13,11 +13,13 @@ namespace IteratorPattern.Menu
     {
         private readonly IMenu _pancakeHouseMenu;
         private readonly IMenu _dinerMenu;
+        private readonly IMenu _cafeMenu;
 
-        public Waitress(IMenu pancakeHouseMenu, IMenu dinerMenu)
+        public Waitress(IMenu pancakeHouseMenu, IMenu dinerMenu, IMenu cafeMenu)
         {
             _pancakeHouseMenu = pancakeHouseMenu;
             _dinerMenu = dinerMenu;
+            _cafeMenu = cafeMenu;
         }
 
         public string PrintMenu()
@@ -26,11 +28,16 @@ namespace IteratorPattern.Menu
 
             var pancakeIterator = _pancakeHouseMenu.CreateMenuItems();
             var dinerIterator = _dinerMenu.CreateMenuItems();
+            var cafeIterator = _cafeMenu.CreateMenuItems();
 
             stringBuilder.Append("MENU\n----\nBREAKFAST\n");
             stringBuilder.Append(PrintMenu(pancakeIterator));
+            
             stringBuilder.Append("\nLUNCH\n");
             stringBuilder.Append(PrintMenu(dinerIterator));
+
+            stringBuilder.Append("\nDINNER\n");
+            stringBuilder.Append(PrintMenu(cafeIterator));
 
             return stringBuilder.ToString();
         }
