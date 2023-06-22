@@ -48,8 +48,8 @@ public class PancakeHouseMenu: IMenu
     //    return _menuItems.ToArray().AsEnumerable();
     //}
 
-    public ICollection<MenuItem> CreateMenuItems()
+    public List<MenuItem> CreateMenuItems()
     {
-        return _menuItems.ToArray().AsEnumerable().Cast<MenuItem>().ToList();
+        return _menuItems.ToArray().Cast<MenuItem>().ToList();
     }
 }

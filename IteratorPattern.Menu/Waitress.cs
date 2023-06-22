@@ -35,15 +35,15 @@ namespace IteratorPattern.Menu
             return stringBuilder.ToString();
         }
 
-        private static string PrintMenu(IEnumerable iterator)
+        private static string PrintMenu(List<MenuItem> iterator)
         {
             StringBuilder stringBuilder = new();
 
-            var menuItems = iterator.GetEnumerator();
+            using var menuItems = iterator.GetEnumerator();
 
             while (menuItems.MoveNext())
             {
-                var menuItem = (MenuItem)menuItems.Current;
+                var menuItem = menuItems.Current;
 
                 stringBuilder.Append(menuItem.Name + ", ");
                 stringBuilder.Append(menuItem.Price + " -- ");
