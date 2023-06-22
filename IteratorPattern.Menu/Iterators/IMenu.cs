@@ -9,6 +9,6 @@ namespace IteratorPattern.Menu.Iterators
 {
     public interface IMenu
     {
-        public IEnumerable<MenuItem> CreateMenuItems();
+        public ICollection<MenuItem> CreateMenuItems();
     }
 }
