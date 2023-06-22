@@ -69,8 +69,8 @@ public class DinerMenu: IMenu
     //    return _menuItems.ToArray().AsEnumerable();
     //}
 
-    public ICollection<MenuItem> CreateMenuItems()
+    public IList<MenuItem> CreateMenuItems()
     {
-        return _menuItems.ToArray().AsEnumerable().ToList();
+        return _menuItems.ToList();
     }
 }
