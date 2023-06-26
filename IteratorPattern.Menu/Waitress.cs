@@ -11,33 +11,39 @@ namespace IteratorPattern.Menu
 {
     public class Waitress
     {
-        private readonly IMenu _pancakeHouseMenu;
-        private readonly IMenu _dinerMenu;
-        private readonly IMenu _cafeMenu;
+        private List<IMenu> _menus;
 
-        public Waitress(IMenu pancakeHouseMenu, IMenu dinerMenu, IMenu cafeMenu)
+        public Waitress(List<IMenu> menus)
         {
-            _pancakeHouseMenu = pancakeHouseMenu;
-            _dinerMenu = dinerMenu;
-            _cafeMenu = cafeMenu;
+            _menus = menus;
         }
 
         public string PrintMenu()
         {
             StringBuilder stringBuilder = new();
+            using var menuEnumerator = _menus.GetEnumerator();
 
-            var pancakeIterator = _pancakeHouseMenu.CreateMenuItems();
-            var dinerIterator = _dinerMenu.CreateMenuItems();
-            var cafeIterator = _cafeMenu.CreateMenuItems();
+            stringBuilder.Append("MENU\n----");
 
-            stringBuilder.Append("MENU\n----\nBREAKFAST\n");
-            stringBuilder.Append(PrintMenu(pancakeIterator));
-            
-            stringBuilder.Append("\nLUNCH\n");
-            stringBuilder.Append(PrintMenu(dinerIterator));
+            while (menuEnumerator.MoveNext())
+            {
+                var menu = menuEnumerator.Current;
 
-            stringBuilder.Append("\nDINNER\n");
-            stringBuilder.Append(PrintMenu(cafeIterator));
+                if (TryCast<PancakeHouseMenu>(menu, out _))
+                {
+                    stringBuilder.Append("\nBREAKFAST\n");
+                }
+                else if (TryCast<DinerMenu>(menu, out _))
+                {
+                    stringBuilder.Append("\nLUNCH\n");
+                }
+                else if (TryCast<CafeMenu>(menu, out _))
+                {
+                    stringBuilder.Append("\nDINNER\n");
+                }
+
+                stringBuilder.Append(PrintMenu(menu.CreateMenuItems()));
+            }
 
             return stringBuilder.ToString();
         }
@@ -58,6 +64,18 @@ namespace IteratorPattern.Menu
             }
 
             return stringBuilder.ToString();
+        }
+
+        public static bool TryCast<T>(object obj, out T? result)
+        {
+            if (obj is T obj1)
+            {
+                result = obj1;
+                return true;
+            }
+
+            result = default(T);
+            return false;
         }
     }
 }
